@@ -26,12 +26,19 @@
 
 * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
 
+html {
+  overflow-x: clip; /* clip es más fiable que hidden en iOS */
+  max-width: 100%;
+}
+
 body {
   font-family: 'Raleway', sans-serif;
   background: var(--cream);
   color: var(--brown);
   min-height: 100vh;
-  overflow-x: hidden;
+  overflow-x: clip;
+  max-width: 100%;
+  position: relative;
 }
 
 /* ── SIDEBAR (desktop) ─────────────────────────────── */
@@ -113,6 +120,8 @@ body {
 .app-body {
   margin-left: var(--sidebar-w);
   min-height: 100vh;
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
 /* ── TOP BAR (mobile) ──────────────────────────────── */
@@ -471,22 +480,94 @@ tfoot tr td:first-child { text-align:left; }
 }
 .no-informes-icon { font-size: 36px; margin-bottom: 12px; opacity: .4; }
 
+/* ── MES: mostrar largo en desktop, corto en móvil ── */
+.mo-short { display: none; }
+.mo-long  { display: inline; }
+
 @media (max-width: 900px) {
+  /* ── LAYOUT ── */
   .sidebar { transform: translateX(-100%); }
   .sidebar.open { transform: translateX(0); }
   .overlay.open { display:block; }
-  .app-body { margin-left: 0; }
+  .app-body { margin-left: 0; max-width: 100vw; overflow-x: hidden; }
   .topbar { display:flex; }
   .mobile-nav { display:block; }
-  .section { padding: 20px 16px 100px; }
+  .section { padding: 20px 16px 100px; max-width: 100%; overflow: hidden; }
   .kpi-grid { grid-template-columns:repeat(2,1fr); gap:12px; }
   .chart-row { grid-template-columns:1fr; }
   .section-title { font-size:22px; }
+  .mant-stats { grid-template-columns: repeat(2, 1fr); }
+  .drive-banner { flex-wrap: wrap; gap: 10px; }
+  .drive-banner-btn { width: 100%; text-align: center; }
+
+  /* ── MESES ABREVIADOS ── */
+  .mo-long  { display: none; }
+  .mo-short { display: inline; }
+
+  /* ── OCULTAR COMPARATIVA AÑO ANTERIOR en móvil
+        (ahorra ~40% del espacio vertical y permite columnas más estrechas) ── */
+  .td-prev { display: none; }
+
+  /* ── TABLA DE INGRESOS (Dashboard): 5 col → encajan con meses cortos y sin comparativa ── */
+  #tWrap table {
+    table-layout: fixed;
+    width: 100%;
+  }
+  #tWrap table thead th { padding: 8px 6px; font-size: 9px; letter-spacing: 0; }
+  #tWrap table tbody td { padding: 8px 6px; font-size: 11.5px; }
+  #tWrap table tfoot td  { padding: 8px 6px; font-size: 11.5px; }
+  /* Anchos proporcionales: Mes estrecho, Net Net el más ancho */
+  #tWrap table th:nth-child(1), #tWrap table td:nth-child(1) { width: 16%; }
+  #tWrap table th:nth-child(2), #tWrap table td:nth-child(2) { width: 18%; }
+  #tWrap table th:nth-child(3), #tWrap table td:nth-child(3) { width: 22%; }
+  #tWrap table th:nth-child(4), #tWrap table td:nth-child(4) { width: 22%; }
+  #tWrap table th:nth-child(5), #tWrap table td:nth-child(5) { width: 22%; }
+
+  /* ── TABLAS DE MANTENIMIENTO: 4 col ── */
+  .mant-table {
+    table-layout: fixed;
+    width: 100%;
+  }
+  .mant-table thead th { padding: 8px 6px; font-size: 9px; letter-spacing: 0; }
+  .mant-table tbody td { padding: 8px 6px; font-size: 11.5px; vertical-align: middle; }
+  /* Fecha fija, Acción se lleva el espacio sobrante, Zona estrecha, Estado fija */
+  .mant-table th:nth-child(1), .mant-table td:nth-child(1) { width: 22%; }
+  .mant-table th:nth-child(2), .mant-table td:nth-child(2) { width: 42%; }
+  .mant-table th:nth-child(3), .mant-table td:nth-child(3) { width: 16%; }
+  .mant-table th:nth-child(4), .mant-table td:nth-child(4) { width: 20%; }
+
+  /* Truncar texto largo — nunca desborda la celda */
+  .td-action, .td-zone, .td-desc, .td-agente {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 0; /* trick: fuerza ellipsis con table-layout fixed */
+  }
+  .estado-badge { font-size: 10px; padding: 2px 6px; white-space: nowrap; }
+  .pill         { font-size: 10px; padding: 2px 6px; }
+  .td-date      { font-size: 10.5px; white-space: nowrap; }
 }
+
 @media (max-width: 480px) {
+  /* ── KPIs y layout general ── */
   .kpi-grid { grid-template-columns:repeat(2,1fr); gap:10px; }
   .kpi-val { font-size:21px; }
   .kpi-val.sm { font-size:16px; }
+  .mant-stats { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .mant-stat-val { font-size: 22px; }
+  .informe-kpi-row { grid-template-columns: 1fr 1fr; }
+  .year-tabs { flex-wrap: wrap; }
+
+  /* ── OCULTAR COLUMNA ZONA en Intervenciones → quedan 3 col muy holgadas ── */
+  #mpanel-intervenciones .mant-table th:nth-child(3),
+  #mpanel-intervenciones .mant-table td:nth-child(3) { display: none; }
+  /* Redistribuir: Fecha | Acción | Estado */
+  #mpanel-intervenciones .mant-table th:nth-child(1),
+  #mpanel-intervenciones .mant-table td:nth-child(1) { width: 24%; }
+  #mpanel-intervenciones .mant-table th:nth-child(2),
+  #mpanel-intervenciones .mant-table td:nth-child(2) { width: 54%; }
+  #mpanel-intervenciones .mant-table th:nth-child(4),
+  #mpanel-intervenciones .mant-table td:nth-child(4) { width: 22%; }
 }
 </style>
 </head>
@@ -982,7 +1063,7 @@ function renderDashboard() {
     const ac = ok&&r.adr!=null ? f1(r.adr)+' €'+(pok&&p.adr!=null?`<span class="td-prev">${f1(p.adr)} €${vsSpan(r.adr,p.adr,false)}</span>`:'') : '<span class="td-null">—</span>';
     const nnc= ok&&r.netNet!=null ? '<strong>'+feur(r.netNet)+'</strong>'+(pok&&p.netNet!=null?`<span class="td-prev">${feur(p.netNet)}${vsSpan(r.netNet,p.netNet,false)}</span>`:'') : '<span class="td-null">—</span>';
 
-    h += `<tr><td>${MO[i]}</td><td>${nc}</td><td>${oc}</td><td>${ac}</td><td>${nnc}</td></tr>`;
+    h += `<tr><td><span class="mo-long">${MO[i]}</span><span class="mo-short">${MS[i]}</span></td><td>${nc}</td><td>${oc}</td><td>${ac}</td><td>${nnc}</td></tr>`;
   }
   h += `</tbody><tfoot><tr><td>Total / Media</td><td>${f0(sN)||'—'}</td><td>${cO?f1(sO/cO)+'%':'—'}</td><td>${cA?f1(sA/cA)+' €':'—'}</td><td>${cNN?feur(sNN):'—'}</td></tr></tfoot></table>`;
   document.getElementById('tWrap').innerHTML = h;
