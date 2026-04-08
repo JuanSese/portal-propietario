@@ -1493,8 +1493,7 @@ function updateLinks(apt) {
   setCard('card-airbnb',   cfg.airbnb);
 }
 
-// Wrap renderDashboard to use currentApt
-function renderDashboard() { setYear(yr); }
+// renderDashboard uses currentApt directly (set by switchApt or initApp)
 
 initApp();
 </script>
