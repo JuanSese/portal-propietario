@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Portal Propietario</title>
+  <script>
+    // GitHub Pages clean URL trick:
+    // Visits to /portal-propietario/umana land here (404),
+    // we save the slug and redirect to index.html
+    (function() {
+      var path = window.location.pathname; // e.g. /portal-propietario/umana
+      var parts = path.split('/').filter(Boolean);
+      // parts[0] = 'portal-propietario', parts[1] = slug
+      var slug = parts.length >= 2 ? parts[parts.length - 1] : '';
+      if (slug && slug !== 'portal-propietario') {
+        sessionStorage.setItem('vb_prop_slug', slug);
+      }
+      // Redirect to index.html preserving the origin
+      var base = window.location.origin + '/portal-propietario/';
+      window.location.replace(base);
+    })();
+  </script>
+</head>
+<body></body>
+</html>
