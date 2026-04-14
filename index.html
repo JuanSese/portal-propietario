@@ -629,8 +629,8 @@ tfoot tr td:first-child { text-align:left; }
   .drive-banner { flex-direction: column; align-items: flex-start; gap: 12px; }
   .drive-banner-btn { width: 100%; text-align: center; justify-content: center; }
   .link-grid { grid-template-columns: 1fr; }
-  /* Ocultar año comparativo en tabla ingresos — muy pequeño para mostrarlo */
-  #tWrap .td-prev { display: none; }
+  /* td-prev visible pero muy compacto */
+  #tWrap .td-prev { font-size: 9px; }
 }
 
 /* ── TUTORIAL STYLES ── */
@@ -1389,10 +1389,11 @@ function renderDashboard() {
 
     if(ok){ sN+=r.roomNights||0; if(r.occupancy!=null){sO+=r.occupancy;cO++;} if(r.adr!=null){sA+=r.adr;cA++;} if(r.netNet!=null){sNN+=r.netNet;cNN++;} }
 
-    const nc = ok&&r.roomNights!=null ? f0(r.roomNights)+(pok&&p.roomNights!=null?`<span class="td-prev">${f0(p.roomNights)}${vsSpan(r.roomNights,p.roomNights,false)}</span>`:'') : '<span class="td-null">—</span>';
-    const oc = ok ? occPill(r.occupancy)+(pok&&p.occupancy!=null?`<span class="td-prev">${f1(p.occupancy)}%${vsSpan(r.occupancy,p.occupancy,true)}</span>`:'') : '<span class="td-null">—</span>';
-    const ac = ok&&r.adr!=null ? f1(r.adr)+' €'+(pok&&p.adr!=null?`<span class="td-prev">${f1(p.adr)} €${vsSpan(r.adr,p.adr,false)}</span>`:'') : '<span class="td-null">—</span>';
-    const nnc= ok&&r.netNet!=null ? '<strong>'+feur(r.netNet)+'</strong>'+(pok&&p.netNet!=null?`<span class="td-prev">${feur(p.netNet)}${vsSpan(r.netNet,p.netNet,false)}</span>`:'') : '<span class="td-null">—</span>';
+    const vsLbl = `<span style="color:#bbb;font-weight:400">'${pyS} </span>`;
+    const nc = ok&&r.roomNights!=null ? f0(r.roomNights)+(pok&&p.roomNights!=null?`<span class="td-prev">${vsLbl}${f0(p.roomNights)}${vsSpan(r.roomNights,p.roomNights,false)}</span>`:'') : '<span class="td-null">—</span>';
+    const oc = ok ? occPill(r.occupancy)+(pok&&p.occupancy!=null?`<span class="td-prev">${vsLbl}${f1(p.occupancy)}%${vsSpan(r.occupancy,p.occupancy,true)}</span>`:'') : '<span class="td-null">—</span>';
+    const ac = ok&&r.adr!=null ? f1(r.adr)+' €'+(pok&&p.adr!=null?`<span class="td-prev">${vsLbl}${f1(p.adr)} €${vsSpan(r.adr,p.adr,false)}</span>`:'') : '<span class="td-null">—</span>';
+    const nnc= ok&&r.netNet!=null ? '<strong>'+feur(r.netNet)+'</strong>'+(pok&&p.netNet!=null?`<span class="td-prev">${vsLbl}${feur(p.netNet)}${vsSpan(r.netNet,p.netNet,false)}</span>`:'') : '<span class="td-null">—</span>';
 
     h += `<tr>
       <td data-label="">${MO[i]}</td>
