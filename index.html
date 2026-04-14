@@ -307,14 +307,63 @@ tfoot tr td:first-child { text-align:left; }
 .td-agente { font-size: 11px; color: var(--brown-light); margin-top: 3px; }
 .mant-empty { text-align: center; padding: 40px; color: var(--brown-light); font-size: 14px; }
 
+.propiedad-alert {
+  display: flex; align-items: center; gap: 14px;
+  background: #fff8e1; border: 1px solid #ffe082;
+  border-radius: 12px; padding: 16px 20px;
+  margin-bottom: 18px;
+}
+.propiedad-alert-icon { font-size: 24px; flex-shrink: 0; }
+.propiedad-alert-title { font-size: 14px; font-weight: 700; color: var(--brown); margin-bottom: 3px; }
+.propiedad-alert-sub { font-size: 12px; color: var(--brown-light); }
+
 /* ── RESPONSIVE TABLES ── */
 @media (max-width: 700px) {
-  #tWrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-  #tWrap table { min-width: 460px; }
-  #tWrap th, #tWrap td { padding: 8px 10px; font-size: 12px; }
   .kpi-grid { grid-template-columns: 1fr 1fr; }
   .informe-kpis { flex-direction: column; gap: 10px; }
   .informe-kpi-box { min-width: unset; }
+}
+
+/* ── INGRESOS TABLE CARD LAYOUT (mobile) ── */
+@media (max-width: 640px) {
+  #tWrap { overflow-x: visible; }
+  #tWrap table { min-width: unset; width: 100%; }
+  #tWrap thead { display: none; }
+  #tWrap tbody tr {
+    display: block; padding: 12px 16px;
+    border-bottom: 1px solid #f0ece6;
+  }
+  #tWrap tbody tr:last-child { border-bottom: none; }
+  #tWrap tbody td {
+    display: flex; align-items: flex-start;
+    gap: 8px; padding: 3px 0;
+    font-size: 13px; text-align: left; border: none;
+  }
+  #tWrap tbody td::before {
+    content: attr(data-label);
+    font-size: 9.5px; font-weight: 700; color: var(--brown-light);
+    text-transform: uppercase; letter-spacing: .7px;
+    min-width: 60px; flex-shrink: 0; padding-top: 2px;
+  }
+  #tWrap tbody td[data-label=""]::before { display: none; min-width: 0; }
+  #tWrap tbody td[data-label=""] { font-weight: 700; font-size: 13px; margin-bottom: 4px; }
+  #tWrap tfoot tr {
+    display: block; padding: 12px 16px;
+    background: #f0ece6; border-top: 2px solid var(--border);
+  }
+  #tWrap tfoot td {
+    display: flex; align-items: center;
+    gap: 8px; padding: 3px 0; font-size: 12.5px;
+    text-align: left; border: none; background: transparent;
+  }
+  #tWrap tfoot td::before {
+    content: attr(data-label);
+    font-size: 9.5px; font-weight: 700; color: var(--brown-light);
+    text-transform: uppercase; letter-spacing: .7px;
+    min-width: 60px; flex-shrink: 0;
+  }
+  #tWrap tfoot td[data-label=""]::before { display: none; min-width: 0; }
+  .td-prev { display: inline; margin-left: 4px; margin-top: 0; }
 }
 
 /* ── MANTENIMIENTO CARD LAYOUT (mobile) ── */
@@ -334,6 +383,8 @@ tfoot tr td:first-child { text-align:left; }
   /* Informe KPI: 2 cols */
   .informe-kpi-row { grid-template-columns: 1fr 1fr; gap: 10px; }
   .informe-featured { padding: 24px 18px; }
+  .informe-kpi-val { font-size: 15px; }
+  .informe-kpi { padding: 12px 12px; }
 
   /* Convert mant tables to card layout — no horizontal scroll */
   .mant-table-wrap { overflow-x: visible; border-radius: 12px; }
@@ -493,7 +544,7 @@ tfoot tr td:first-child { text-align:left; }
   border-radius: 12px; padding: 14px 16px;
 }
 .informe-kpi-label { font-size: 9.5px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--gold-light); margin-bottom: 6px; }
-.informe-kpi-val { font-size: 20px; font-weight: 700; color: #fff; }
+.informe-kpi-val { font-size: 18px; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .informe-kpi-delta { font-size: 11px; margin-top: 4px; }
 .informe-kpi-delta.up { color: #81c784; }
 .informe-kpi-delta.dn { color: #ef9a9a; }
@@ -778,7 +829,7 @@ tfoot tr td:first-child { text-align:left; }
     <div class="mant-tabs">
       <button class="mant-tab active" onclick="showMantTab('intervenciones')" id="mtab-intervenciones">Intervenciones</button>
       <button class="mant-tab" onclick="showMantTab('incidencias')" id="mtab-incidencias">Incidencias</button>
-      <button class="mant-tab mant-tab-propiedad" onclick="showMantTab('propiedad')" id="mtab-propiedad">🏠 Propiedad</button>
+      <button class="mant-tab mant-tab-propiedad" onclick="showMantTab('propiedad')" id="mtab-propiedad">Propiedad</button>
     </div>
 
     <!-- Intervenciones table -->
@@ -1133,7 +1184,8 @@ const PROP_CONFIG = {
 const URL_TUTORIALES = "__URL_TUTORIALES__";
 
 // ── HELPERS ───────────────────────────────────────────
-const MO  = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+const MO  = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+const MO_FULL = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 const MS  = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
 let yr = 2026, charts = {};
 
@@ -1338,12 +1390,13 @@ function renderDashboard() {
   const hasData = yd.some(r => r.roomNights != null);
   if (!hasData) { document.getElementById('tWrap').innerHTML=`<div style="text-align:center;padding:40px;color:#9e9b97">Sin datos para ${yr}</div>`; return; }
 
+  const pyS = String(py).slice(2); // "2025" → "25"
   let h = `<table><thead><tr>
     <th>Mes</th>
-    <th>Noches${hasPrev?`<br><small style="font-weight:400;opacity:.6">${py}</small>`:''}</th>
-    <th>Ocupación${hasPrev?`<br><small style="font-weight:400;opacity:.6">${py}</small>`:''}</th>
-    <th>Net ADR${hasPrev?`<br><small style="font-weight:400;opacity:.6">${py}</small>`:''}</th>
-    <th>Net Net${hasPrev?`<br><small style="font-weight:400;opacity:.6">${py}</small>`:''}</th>
+    <th>Noches${hasPrev?`<br><small style="font-weight:400;opacity:.6">'${pyS}</small>`:''}</th>
+    <th>Ocup.${hasPrev?`<br><small style="font-weight:400;opacity:.6">'${pyS}</small>`:''}</th>
+    <th>ADR${hasPrev?`<br><small style="font-weight:400;opacity:.6">'${pyS}</small>`:''}</th>
+    <th>Net Net${hasPrev?`<br><small style="font-weight:400;opacity:.6">'${pyS}</small>`:''}</th>
   </tr></thead><tbody>`;
 
   let sN=0,sO=0,cO=0,sA=0,cA=0,sNN=0,cNN=0;
@@ -1360,9 +1413,21 @@ function renderDashboard() {
     const ac = ok&&r.adr!=null ? f1(r.adr)+' €'+(pok&&p.adr!=null?`<span class="td-prev">${f1(p.adr)} €${vsSpan(r.adr,p.adr,false)}</span>`:'') : '<span class="td-null">—</span>';
     const nnc= ok&&r.netNet!=null ? '<strong>'+feur(r.netNet)+'</strong>'+(pok&&p.netNet!=null?`<span class="td-prev">${feur(p.netNet)}${vsSpan(r.netNet,p.netNet,false)}</span>`:'') : '<span class="td-null">—</span>';
 
-    h += `<tr><td>${MO[i]}</td><td>${nc}</td><td>${oc}</td><td>${ac}</td><td>${nnc}</td></tr>`;
+    h += `<tr>
+      <td data-label="">${MO[i]}</td>
+      <td data-label="Noches">${nc}</td>
+      <td data-label="Ocup.">${oc}</td>
+      <td data-label="ADR">${ac}</td>
+      <td data-label="Net Net">${nnc}</td>
+    </tr>`;
   }
-  h += `</tbody><tfoot><tr><td>Total / Media</td><td>${f0(sN)||'—'}</td><td>${cO?f1(sO/cO)+'%':'—'}</td><td>${cA?f1(sA/cA)+' €':'—'}</td><td>${cNN?feur(sNN):'—'}</td></tr></tfoot></table>`;
+  h += `</tbody><tfoot><tr>
+    <td data-label="">Total / Media</td>
+    <td data-label="Noches">${f0(sN)||'—'}</td>
+    <td data-label="Ocup.">${cO?f1(sO/cO)+'%':'—'}</td>
+    <td data-label="ADR">${cA?f1(sA/cA)+' €':'—'}</td>
+    <td data-label="Net Net">${cNN?feur(sNN):'—'}</td>
+  </tr></tfoot></table>`;
   document.getElementById('tWrap').innerHTML = h;
 
   // Render evaluaciones widget
@@ -1744,8 +1809,8 @@ function renderMantenimiento(apt) {
   const propTab = document.getElementById('mtab-propiedad');
   if (propTab) {
     propTab.classList.toggle('has-pending', pRows.length > 0);
-    if (pRows.length > 0) propTab.innerHTML = `🏠 Propiedad <span style="background:#fb5b5c;color:#fff;border-radius:20px;padding:1px 7px;font-size:10px;margin-left:4px;">${pRows.length}</span>`;
-    else propTab.innerHTML = '🏠 Propiedad';
+    if (pRows.length > 0) propTab.innerHTML = `Propiedad <span style="background:#fb5b5c;color:#fff;border-radius:20px;padding:1px 7px;font-size:10px;margin-left:4px;">${pRows.length}</span>`;
+    else propTab.innerHTML = 'Propiedad';
   }
   if (!pRows.length) {
     document.getElementById('propTableBody').innerHTML = '<tr><td colspan="4" class="mant-empty">✅ Sin elementos pendientes de tu revisión</td></tr>';
