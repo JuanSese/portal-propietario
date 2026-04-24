@@ -18,7 +18,7 @@
   --gold: #fb5b5c;
   --gold-light: #fd9090;
   --gold-pale: rgba(251,91,92,0.06);
-  --oscuro: #2c2925;
+  --oscuro: #3d3a36;
   --titular: #524e4b;
   --brown: #4d4a46;
   --brown-mid: #706e6b;
@@ -112,8 +112,8 @@ body {
   text-decoration: none;
   letter-spacing: 0.01em;
 }
-.nav-item:hover { background: rgba(255,255,255,.07); color: rgba(255,255,255,.9); }
-.nav-item.active { background: var(--gold); color: #fff; font-weight: 600; border-left: 3px solid rgba(255,255,255,.3); }
+.nav-item:hover { background: rgba(255,255,255,.06); color: rgba(255,255,255,.9); }
+.nav-item.active { background: rgba(255,255,255,.1); color: #fff; font-weight: 600; border-left: 2px solid var(--gold); padding-left: 12px; }
 .nav-item.active .nav-icon { opacity: 1; }
 .nav-icon { font-size: 17px; opacity: .7; flex-shrink:0; }
 .nav-item.ext-link::after { content:'↗'; font-size:11px; margin-left:auto; opacity:.5; }
@@ -164,15 +164,19 @@ body {
 .kpi-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:24px; }
 .kpi {
   background:#fff; border:1px solid var(--border-light);
-  border-radius:0; padding:20px 18px;
+  border-radius:0; padding:22px 20px;
   position:relative; overflow:hidden;
 }
 .kpi::after {
-  content:''; position:absolute; bottom:0; left:0; right:0; height:2px;
-  background:linear-gradient(90deg,var(--gold),var(--gold-light));
+  content:''; position:absolute; bottom:0; left:0; right:0; height:1px;
+  background: var(--crema-media);
+}
+.kpi::before {
+  content:''; position:absolute; bottom:0; left:0; width:32px; height:2px;
+  background: var(--gold);
 }
 .kpi-icon { font-size:22px; margin-bottom:10px; }
-.kpi-label { font-size:9.5px; font-weight:600; color:var(--gold); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:8px; font-family:var(--font-body); }
+.kpi-label { font-size:9.5px; font-weight:600; color:var(--brown-light); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:8px; font-family:var(--font-body); }
 .kpi-val { font-size:26px; font-weight:700; color:var(--titular); line-height:1; font-family:var(--font-nums); }
 .kpi-val.sm { font-size:20px; }
 .delta { display:inline-flex; align-items:center; gap:3px; font-size:10px; font-weight:700; padding:3px 9px; border-radius:0; margin-top:8px; font-family:var(--font-body); }
@@ -183,7 +187,7 @@ body {
 /* Charts */
 .chart-row { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-bottom:18px; }
 .card { background:#fff; border:1px solid var(--border-light); border-radius:0; padding:22px; }
-.card-title { font-size:9.5px; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:var(--gold); margin-bottom:4px; font-family:var(--font-body); }
+.card-title { font-size:9.5px; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:var(--brown-light); margin-bottom:4px; font-family:var(--font-body); }
 .card-sub { font-size:11px; color:var(--brown-light); margin-bottom:12px; font-family:var(--font-body); }
 .legend { display:flex; gap:16px; margin-bottom:10px; flex-wrap:wrap; }
 .leg-item { display:flex; align-items:center; gap:6px; font-size:11px; color:var(--brown-light); }
@@ -194,7 +198,7 @@ body {
 /* Table */
 .table-card { background:#fff; border:1px solid var(--border-light); border-radius:0; overflow:hidden; margin-top:18px; }
 .table-head { padding:16px 22px 12px; border-bottom:1px solid var(--border-light); }
-.table-title { font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:1.2px; color:var(--gold); }
+.table-title { font-size:9.5px; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:var(--brown-light); font-family:var(--font-body); }
 table { width:100%; border-collapse:collapse; }
 thead th { padding:9px 14px; text-align:right; font-size:10px; font-weight:700; color:var(--brown-light); text-transform:uppercase; letter-spacing:.8px; background:#f0ece6; border-bottom:1px solid var(--border-light); }
 thead th:first-child { text-align:left; }
@@ -217,17 +221,18 @@ tfoot tr td:first-child { text-align:left; }
 
 /* ── APARTMENT SELECTOR PILLS ── */
 .apt-pill {
-  padding: 5px 13px; border-radius: 20px;
-  font-size: 11px; font-weight: 700; cursor: pointer;
-  border: 1px solid rgba(255,255,255,.15);
+  padding: 6px 14px; border-radius: 0;
+  font-size: 11px; font-weight: 600; cursor: pointer;
+  border: 1px solid rgba(255,255,255,.18);
   background: transparent; color: rgba(255,255,255,.5);
-  font-family: 'Raleway', sans-serif;
-  transition: all .15s; white-space: nowrap;
+  font-family: var(--font-body);
+  transition: var(--trans); white-space: nowrap;
+  letter-spacing: 0.03em;
 }
-.apt-pill:hover { background: rgba(255,255,255,.08); color: rgba(255,255,255,.8); }
-.apt-pill.active { background: var(--gold); color: #fff; border-color: var(--gold); }
-.apt-pill-total { border-color: var(--accent); }
-.apt-pill-total.active { background: var(--accent); border-color: var(--accent); }
+.apt-pill:hover { background: rgba(255,255,255,.08); color: rgba(255,255,255,.85); border-color: rgba(255,255,255,.3); }
+.apt-pill.active { background: rgba(255,255,255,.12); color: #fff; border-color: rgba(255,255,255,.5); border-bottom: 2px solid var(--gold); }
+.apt-pill-total { border-color: rgba(255,255,255,.18); }
+.apt-pill-total.active { background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.5); border-bottom: 2px solid var(--gold); }
 
 /* Mobile apt pills (shown in topbar area for mobile) */
 .apt-pills-mobile {
@@ -272,7 +277,7 @@ tfoot tr td:first-child { text-align:left; }
   background: #fff; border: 1px solid var(--border-light);
   border-radius: 0; padding: 14px 16px;
 }
-.mant-stat-label { font-size: 9.5px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; font-family: var(--font-body); }
+.mant-stat-label { font-size: 9.5px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--brown-light); margin-bottom: 6px; font-family: var(--font-body); }
 .mant-stat-val { font-size: 26px; font-weight: 700; color: var(--titular); font-family: var(--font-nums); }
 .mant-stat-sub { font-size: 11px; color: var(--brown-light); margin-top: 3px; font-family: var(--font-body); }
 
