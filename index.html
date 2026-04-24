@@ -18,7 +18,7 @@
   --gold: #fb5b5c;
   --gold-light: #fd9090;
   --gold-pale: rgba(251,91,92,0.06);
-  --oscuro: #3d3a36;
+  --oscuro: #4a4540;
   --titular: #524e4b;
   --brown: #4d4a46;
   --brown-mid: #706e6b;
@@ -34,6 +34,7 @@
   --font-body: 'Poppins', sans-serif;
   --font-nums: 'Rethink Sans', sans-serif;
   --trans: all 0.25s cubic-bezier(.4,0,.2,1);
+  --accent: #fb5b5c;
 }
 
 * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
@@ -145,10 +146,10 @@ body {
 }
 
 /* ── SECTIONS ──────────────────────────────────────── */
-.section { display: none; padding: 32px 32px 60px; min-height: 100vh; }
+.section { display: none; padding: 40px 40px 80px; min-height: 100vh; background: #fff; }
 .section.active { display: block; }
 
-.section-header { margin-bottom: 28px; }
+.section-header { margin-bottom: 36px; padding-bottom: 24px; border-bottom: 1px solid var(--border-light); }
 .section-title {
   font-family: var(--font-display);
   font-size: 26px; color: var(--titular);
@@ -161,32 +162,28 @@ body {
 .ytab { padding:7px 22px; border-radius:0; font-size:12px; font-weight:600; cursor:pointer; border:none; background:transparent; color:var(--brown-light); font-family:var(--font-body); transition:var(--trans); letter-spacing:0.03em; }
 .ytab.active { background:#fff; color:var(--gold); font-weight:700; box-shadow:0 1px 4px rgba(0,0,0,.08); }
 
-.kpi-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:24px; }
+.kpi-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; margin-bottom:32px; background: var(--border-light); border: 1px solid var(--border-light); }
 .kpi {
-  background:#fff; border:1px solid var(--border-light);
-  border-radius:0; padding:22px 20px;
+  background:#fff;
+  border-radius:0; padding:28px 24px;
   position:relative; overflow:hidden;
 }
-.kpi::after {
-  content:''; position:absolute; bottom:0; left:0; right:0; height:1px;
-  background: var(--crema-media);
-}
 .kpi::before {
-  content:''; position:absolute; bottom:0; left:0; width:32px; height:2px;
+  content:''; position:absolute; top:0; left:0; width:24px; height:2px;
   background: var(--gold);
 }
 .kpi-icon { font-size:22px; margin-bottom:10px; }
 .kpi-label { font-size:9.5px; font-weight:600; color:var(--brown-light); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:8px; font-family:var(--font-body); }
-.kpi-val { font-size:26px; font-weight:700; color:var(--titular); line-height:1; font-family:var(--font-nums); }
-.kpi-val.sm { font-size:20px; }
+.kpi-val { font-size:28px; font-weight:600; color:var(--titular); line-height:1; font-family:var(--font-nums); letter-spacing:-0.02em; }
+.kpi-val.sm { font-size:22px; }
 .delta { display:inline-flex; align-items:center; gap:3px; font-size:10px; font-weight:700; padding:3px 9px; border-radius:0; margin-top:8px; font-family:var(--font-body); }
 .delta.up { background:#eef7ee; color:var(--success); }
 .delta.dn { background:#fdecea; color:var(--danger); }
 .delta.eq { background:var(--crema-media); color:var(--brown-light); }
 
 /* Charts */
-.chart-row { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-bottom:18px; }
-.card { background:#fff; border:1px solid var(--border-light); border-radius:0; padding:22px; }
+.chart-row { display:grid; grid-template-columns:1fr 1fr; gap:1px; margin-bottom:1px; background: var(--border-light); }
+.card { background:#fff; border:none; border-radius:0; padding:28px 24px; }
 .card-title { font-size:9.5px; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:var(--brown-light); margin-bottom:4px; font-family:var(--font-body); }
 .card-sub { font-size:11px; color:var(--brown-light); margin-bottom:12px; font-family:var(--font-body); }
 .legend { display:flex; gap:16px; margin-bottom:10px; flex-wrap:wrap; }
@@ -317,8 +314,9 @@ tfoot tr td:first-child { text-align:left; }
 .mant-table .td-zone { font-size: 12px; color: var(--brown-light); }
 .estado-badge {
   display: inline-flex; align-items: center; gap: 4px;
-  font-size: 11px; font-weight: 600; padding: 3px 9px;
-  border-radius: 20px; white-space: nowrap;
+  font-size: 10px; font-weight: 600; padding: 3px 9px;
+  border-radius: 0; white-space: nowrap;
+  font-family: var(--font-body); letter-spacing: 0.03em;
 }
 .estado-verde { background: #eef7ee; color: #2e7d32; }
 .estado-rojo { background: #fdecea; color: #fb5b5c; }
@@ -1526,7 +1524,7 @@ function renderInformes(apt) {
         <div style="font-size:15px;font-weight:600;color:var(--brown);margin-bottom:8px">Selecciona un apartamento</div>
         <div style="font-size:13px;margin-bottom:14px">Los informes trimestrales se generan para cada apartamento. Elige uno de los apartamentos de tu cartera para ver su informe.</div>
         <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;">
-          ${propietarioApts.map(a => `<button onclick="switchApt('${a}')" style="padding:6px 14px;border-radius:20px;border:1px solid var(--accent);color:var(--accent);background:none;cursor:pointer;font-size:12px;font-weight:600;">${a}</button>`).join('')}
+          ${propietarioApts.map(a => `<button onclick="switchApt('${a}')" style="padding:6px 16px;border-radius:0;border:1px solid var(--crema-media);color:var(--titular);background:none;cursor:pointer;font-size:11px;font-weight:600;font-family:var(--font-body);letter-spacing:0.04em;transition:all .2s;" onmouseover="this.style.background='var(--gold)';this.style.color='#fff';this.style.borderColor='var(--gold)'" onmouseout="this.style.background='none';this.style.color='var(--titular)';this.style.borderColor='var(--crema-media)'">${a}</button>`).join('')}
         </div>
       </div>`;
     return;
@@ -1815,7 +1813,7 @@ function renderMantenimiento(apt) {
   const propTab = document.getElementById('mtab-propiedad');
   if (propTab) {
     propTab.classList.toggle('has-pending', pRows.length > 0);
-    if (pRows.length > 0) propTab.innerHTML = `Propiedad <span style="background:#fb5b5c;color:#fff;border-radius:20px;padding:1px 7px;font-size:10px;margin-left:4px;">${pRows.length}</span>`;
+    if (pRows.length > 0) propTab.innerHTML = `Propiedad <span style="background:#fb5b5c;color:#fff;border-radius:0;padding:1px 7px;font-size:9px;margin-left:4px;font-family:var(--font-body);font-weight:700;">${pRows.length}</span>`;
     else propTab.innerHTML = 'Propiedad';
   }
   if (!pRows.length) {
