@@ -1289,6 +1289,11 @@ function showSection(id) {
   const mi = document.getElementById('mnav-'+id);
   if (mi) mi.classList.add('active');
 
+  // Refrescar links al entrar en secciones con Drive/Extranet/Airbnb
+  if (id === 'mantenimiento' || id === 'drive' || id === 'extranet' || id === 'airbnb') {
+    updateLinks(currentApt);
+  }
+
   closeSidebar();
   window.scrollTo(0,0);
 }
