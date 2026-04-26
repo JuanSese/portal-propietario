@@ -1977,7 +1977,7 @@ function airbnbCardHtml(url, label) {
 }
 
 function updateLinks(apt) {
-  const driveEl = document.querySelector('.drive-banner-btn') || document.getElementById('card-drive');
+  const driveEl = document.getElementById('card-drive');
 
   if (apt === '__TOTAL__') {
     // Drive: hide
