@@ -700,7 +700,7 @@ tfoot tr td:first-child { text-align:left; }
   <div class="sidebar-apt">
     <div class="sidebar-apt-label">Tu apartamento</div>
     <div class="sidebar-apt-name" id="sideAptName">—</div>
-    <div class="sidebar-apt-zone" id="sideAptZone" style="display:none">—</div>
+    <div class="sidebar-apt-zone" id="sideAptZone" style="display:none"></div>
   </div>
   <!-- Apartment pills (shown only when propietario has 2+ apartments) -->
   <div id="aptSelectorWrap" style="display:none;flex-wrap:wrap;gap:6px;padding:12px 18px 0;"></div>
@@ -1821,7 +1821,14 @@ function initApp() {
     document.getElementById('sideAptName').textContent = currentApt;
   }
 
-  document.getElementById('sideAptZone').textContent = zone(currentApt);
+  // Mostrar nombre del apartamento bajo el nombre del propietario
+  const zoneEl = document.getElementById('sideAptZone');
+  if (propietarioApts.length === 1) {
+    zoneEl.textContent = currentApt;
+    zoneEl.style.display = '';
+  } else {
+    zoneEl.style.display = 'none';
+  }
 
   // Build apartment selector if multiple apartments
   buildAptSelector();
