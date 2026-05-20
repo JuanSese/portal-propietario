@@ -1875,11 +1875,10 @@ function switchApt(apt) {
   currentApt = apt;
   if (apt === '__TOTAL__') {
     document.getElementById('sideAptName').textContent = 'Cartera completa';
-    document.getElementById('sideAptZone').textContent = propietarioApts.length + ' apartamentos';
   } else {
     document.getElementById('sideAptName').textContent = apt;
-    document.getElementById('sideAptZone').textContent = zone(apt);
   }
+  // sideAptZone solo se muestra para propietarios de un único apartamento (sin pills)
 
   // Update selector pills
   document.querySelectorAll('.apt-pill').forEach(p => {
